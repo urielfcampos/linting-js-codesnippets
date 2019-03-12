@@ -3,6 +3,7 @@ import json
 import csv
 import glob
 import os
+import pandas
 
 class Parser:
     postId =''
@@ -103,6 +104,50 @@ def aggregateRules():
         writer.writeheader()
         writer.writerow(aggregateRules)
 
+def mostCommonErrorsPerCategory():
+    ruleDict = createRuleDict()
+    rules = {"Best Practices":[],"ECMAScript 6":[],"Node.js and CommonJS":[],"Possible Errors":[],"Stylistic Issues":[],"Variables":[]}
+    with open("allrules.csv","r") as csvFile:
+        reader = csv.reader(csvFile)
+        FieldNames = []
+        values = []
+        for index,row in enumerate(reader):
+                if index == 0:
+                    FieldNames = row
+                else:
+                    values = [int(x) for x in row]
+        for y in ruleDict:
+            for x in zip(FieldNames,values):
+                if x[0] in ruleDict[y]:
+                    rules[y].append(x)
+        for y in ruleDict:
+            rules[y].sort(key=lambda tup: tup[1], reverse=True)
+        print(rules.keys())
+    with open("MostCommonRule.csv","w") as csvFile:
+        writer = csv.DictWriter(csvFile,rules.keys())
+        writer.writeheader()
+        writer.writerow(rules)
+
+def getPossibleErrorsIDs():
+    ruleDict = createRuleDict()
+    ruleIDs ={"PostID":[]}
+    with open("PersonalizedIndividualReportFixed.csv","r") as csvFile:
+        reader = csv.DictReader(csvFile)
+        for index,row in enumerate(reader):
+            for x in ruleDict["Possible Errors"]:
+                if row[x] != '':
+                    ruleIDs["PostID"].append(row["Post Id"])
+                    break
+    with open("possibleErrorsID.csv",'w') as errorsFile:
+        writer = csv.DictWriter(errorsFile,ruleIDs.keys())
+        writer.writeheader()
+        idList = ruleIDs["PostID"]
+        print(idList)
+        for x in idList:
+            print(x)
+            writeDict = {"PostID":x}
+            writer.writerow(writeDict)
+
 def parseErrorsSingle(jsonFiles):
     parser = Parser()
     for x in jsonFiles:
@@ -124,21 +169,30 @@ os.chdir("../codigosStackOverflow")
 fileDir = glob.glob('report*.json')
 z=0
 menu=True
-for idx,x in enumerate(fileDir):
-
-    print("Reading json Reports{}...".format(idx))
-    l.append(parser.parse_json(x))
-
+getPossibleErrorsIDs()
+"""
 while(menu):
     print("Menu")
-    print("Parse Errors json with rule count in one line : 1")
-    print("Parse Errors json with filepath count:2")
-    print("Aggregate rules:3")
-    userInput = input("Select an option")
-    print(userInput)
-    if userInput == "1":
-        parseErrorsSingle(l)
-    if userInput =="2":
-        parseFilePathRules(l)
-    if userInput =="3":
-        aggregateRules()
+    print("Do you want to load the reports ?")
+    userInput = input("yes/no")
+    if userInput.lower().lstrip().rstrip()=="yes":
+        for idx, x in enumerate(fileDir):
+            print("Reading json Reports{}...".format(idx))
+            l.append(parser.parse_json(x))
+        print("Parse Errors json with rule count in one line : 1")
+        print("Parse Errors json with filepath count:2")
+        userInput = input("Select an option")
+    elif userInput.lower().lstrip().rstrip()=="no":
+        print("Aggregate rules:1")
+        print("Most Common Errors :2")
+        print("Exit : 3")
+        userInput=input("Select an option")
+        if userInput =="1":
+            aggregateRules()
+        if userInput =="2":
+            mostCommonErrorsPerCategory()
+        if userInput=="3":
+            exit(0)
+        if userInput=="4":
+            getPossibleErrorsIDs()
+"""
