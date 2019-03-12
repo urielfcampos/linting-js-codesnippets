@@ -1,6 +1,6 @@
 
 # Content of this repository
-This is the repository that contains the scripts and dataset for <br>
+This is the repository that contains the scripts and dataset for the MSR 2019 mining challenge
 =======
 # DATASET
 The dataset was retrived utilizing google bigquery and dumped to a csv
