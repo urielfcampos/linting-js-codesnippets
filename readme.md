@@ -1,8 +1,16 @@
 
+
 # Content of this repository
 This is the repository that contains the scripts and dataset for the MSR 2019 mining challenge
+
+[![DOI](https://zenodo.org/badge/162313579.svg)](https://zenodo.org/badge/latestdoi/162313579)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2593818.svg)](https://doi.org/10.5281/zenodo.2593818)
+
+
+
 =======
 # DATASET
+The dataset can be found here : https://zenodo.org/record/2593818
 The dataset was retrived utilizing google bigquery and dumped to a csv
 file for further processing, this original file with no treatment is called jsanswers.csv, here we can find the following information :
 1. The Id of the question (PostId)
