@@ -3,8 +3,11 @@
 # Content of this repository
 This is the repository that contains the scripts and dataset for the MSR 2019 mining challenge
 
-[![DOI](https://zenodo.org/badge/162313579.svg)](https://zenodo.org/badge/latestdoi/162313579)
+Dataset:
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2593818.svg)](https://doi.org/10.5281/zenodo.2593818)
+
+Code:
+[![DOI](https://zenodo.org/badge/162313579.svg)](https://zenodo.org/badge/latestdoi/162313579)
 
 
 
